@@ -1,0 +1,15 @@
+Smart Contract Psudocode for In-Game-Native-Ads
+What will this Smart Contract Need to Do?
+
+SPDX Licence Identifier Needed
+pragma Soliditity to current value needed
+
+import any functions or contracts needed
+
+first contract named userLogin
+
+  need struct userID
+    string firstName
+    string lastName
+
+More to come
