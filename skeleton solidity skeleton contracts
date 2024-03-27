@@ -1,0 +1,152 @@
+//Please Note - All code, especically in functions, subject to change, this is preliminary code based on past work and research. It does not reflect the final project
+
+// SPDX-License-Identifier: GPL-3.0
+
+pragma solidity >=0.7.0 <0.9.0;
+
+//First Task, imputing user ID
+contract userID {
+
+    struct ID {
+        string firstName;
+        string lastName;
+        string walletAddress
+    }
+
+    ID id;
+
+    address owner;
+
+    // Create a mapping called isApproved
+    //  maps an address to a bool
+    mapping (address => bool) public isApproved;
+
+    // Create a modifier onlyOwner
+    modifier onlyOwner{
+        require(msg.sender == owner);
+        _;
+    }
+
+    constructor(string memory _first, string memory _last, string memory _wallet) {
+
+        // assign the ID structure to the variable
+        id = ID(_first, _last, _wallet);
+        
+        //  Assign the createor of this contract as the owner
+        owner = msg.sender;
+
+    }
+
+    //This function is to make the wallet address an id for the user
+    function setID(uint _wallet) public onlyOwner {
+
+        id.walletAddress = _id;
+    }
+
+    //Function to approve viewer
+    function approveViewer(address viewer) public {
+
+        isApproved[viewer] = true;
+    }
+
+    //Function to view user id information that only the owner can see
+    function getID() public view returns(ID memory){
+
+        // require that the person requesting the id is approved or the owner
+        // || is the logical or operator in Solidity
+        require((isApproved[msg.sender] == true || msg.sender == owner), "You are not approved to view this Wallet Address");
+
+        return(id);
+    }
+
+//Next smart contract, one to conduct wallet transactions
+import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+
+contract walletTransactions {
+
+  address owner; //might not be needed since already in previous contract, will be needed if using two different files
+
+      constructor() {
+          owner = msg.sender;
+      }
+
+      modifier onlyOwner() {
+          require(msg.sender == owner, "Only owner can call this function");
+          _;
+      }
+
+      function deposit() public payable {
+          // Allows the contract to receive Ether
+      }
+
+      function withdraw(uint256 amount) public payable onlyOwner {
+          //Allows users to withdraw from wallet
+          
+      }
+
+      function getBalance() public view returns (uint256) {
+          return address(this).balance;
+      }
+
+      function pay() public payable {
+        //Allows the contract to pay for services
+    }
+
+//Smart Contract for NFT minting, listing, and storing. Logic for this smart contract could be used in multiple contracts if developing and listing 
+//different NFTs
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract MyNFT is ERC721Enumerable, Ownable {
+    //name MyNFT can be chaged accordingly to adHolderNFT, AIArtNFT, or whatever is needed.
+    using Strings for uint256;
+
+    // Base URI
+    string private _baseURIextended;
+
+    constructor() ERC721("MyNFTCollection", "MNFT") {}
+
+    function setBaseURI(string memory baseURI_) external onlyOwner {
+        //Add logic as needed
+        _baseURIextended = baseURI_;
+    }
+
+    function _baseURI() internal view virtual override returns (string memory) {
+        //add logic as needed
+        return _baseURIextended;
+    }
+
+    function mintNFT() public onlyOwner {
+        //add logic as needed
+        uint256 newTokenId = totalSupply() + 1;
+        _mint(msg.sender, newTokenId);
+    }
+
+    function listNFTs() public view returns (uint256[] memory) {
+        //add logic as needed
+        uint256 ownerTokenCount = balanceOf(msg.sender);
+        uint256[] memory tokenIds = new uint256[](ownerTokenCount);
+        
+        for (uint256 i; i < ownerTokenCount; i++) {
+            tokenIds[i] = tokenOfOwnerByIndex(msg.sender, i);
+        }
+        
+        return tokenIds;
+    }
+
+    
+    function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
+        //add logic as needed
+        require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
+
+        string memory baseURI = _baseURI();
+        return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString())) : "";
+    }
+}
+
+
+}
