@@ -1,0 +1,132 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+
+//First Task, imputing user ID
+address owner;
+
+contract userID {
+
+    struct ID {
+        //Enter information for user Id
+    }
+
+    ID id;
+
+    
+
+    // Create a mapping called isApproved
+    //  maps an address to a bool
+    mapping (address => bool) public isApproved;
+
+    // Create a modifier onlyOwner
+    modifier onlyOwner{
+        require(msg.sender == owner);
+        _;
+    }
+
+    constructor(/*Information from struct */) {
+
+        // assign the ID structure to the variable
+        id = ID(/*Information from struct*/);
+        
+        //  Assign the createor of this contract as the owner
+        owner = msg.sender;
+
+    }
+
+    //This function is to make the wallet address an id for the user
+    function setID(uint /*wallet address*/) public onlyOwner {
+
+        //Logic
+    }
+
+    //Function to approve viewer
+    function approveViewer(address viewer) public {
+
+        isApproved[viewer] = true;
+    }
+
+    //Function to view user id information that only the owner can see
+    function getID() public view returns(ID memory){
+
+        // Logic
+
+        return(id);
+    }
+
+//Second Task, conducting wallet transactions
+contract walletTransactions {
+
+  
+
+      constructor() {
+          owner = msg.sender;
+      }
+
+      modifier onlyOwner() {
+          require(msg.sender == owner, "Only owner can call this function");
+          _;
+      }
+
+      function deposit() public payable {
+          // Allows the contract to receive Ether
+      }
+
+      function withdraw(uint256 amount) public payable onlyOwner {
+          //Allows users to withdraw from wallet
+          
+      }
+
+      function getBalance() public view returns (uint256) {
+          return address(this).balance;
+      }
+
+      function pay() public payable {
+        //Allows the contract to pay for services
+    }
+
+//Third task, Smart Contract for NFT minting, listing, and storing. Logic for this smart contract could be used in multiple contracts if developing and listing 
+//different NFTs
+
+
+contract MyNFT is ERC721Enumerable, Ownable {
+    //name MyNFT can be chaged accordingly to adHolderNFT, AIArtNFT, or whatever is needed.
+    using Strings for uint256;
+
+    // Base URI
+    string private _baseURIextended;
+
+    constructor() ERC721("MyNFTCollection", "MNFT") {}
+
+    function setBaseURI(string memory baseURI_) external onlyOwner {
+        //Logic
+        
+    }
+
+    function _baseURI() internal view virtual override returns (string memory) {
+        //Logic
+        
+    }
+
+    function mintNFT() public onlyOwner {
+        //Logic
+        
+    }
+
+    function listNFTs() public view returns (uint256[] memory) {
+        //Logic
+        
+    }
+
+    
+    function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
+        //Logic
+        
+    }
+}
+
+}
