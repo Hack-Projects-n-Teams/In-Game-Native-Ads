@@ -1,0 +1,96 @@
+Solidity Functions Map of Content (MOC)
+
+The purpose of this file is to explain each function that will be written in Solidity in the Smart Contracts for the In-Game-Generative-Ads project.
+As of March 28th, 2023 most of the funtions exist only in skeleton format. This means that they have no logic written in them. This file will explain logic that will
+be used in the functions for developers to understand how the functions will work.
+
+Smart Contract 1:
+Function 1. A function to set the users wallet address as their ID:
+
+
+function setID(uint /*wallet address*/) public onlyOwner {
+
+        //Logic
+    }
+
+
+Prior to the writing of this function, the users basic information (first name, last name, wallet information, etc.) will be collected using the following "struct" 
+and "constructor:
+
+struct ID {
+        //Enter information for user Id
+    }
+
+    address owner;
+    ID id;
+
+    // Create a mapping called isApproved
+    //  maps an address to a bool
+    mapping (address => bool) public isApproved;
+
+    // Create a modifier onlyOwner
+    modifier onlyOwner{
+        require(msg.sender == owner);
+        _;
+    }
+
+    constructor(/*Information from struct */) {
+
+        // assign the ID structure to the variable
+        id = ID(/*Information from struct*/);
+        
+        //  Assign the createor of this contract as the owner
+        owner = msg.sender;
+
+    }
+
+The user information will be collected using "string", "uint", or whatever identifiers are needed. Assigning "address" to "owner" and "ID" to "id" is for assignment.
+Mapping "address" to a public "bool" function (meaning it is either true or false) makes the "owner" approved while creating the modifier onlyOwner, requiring msg.sender
+to be the owner ensures the security that only the owner of the wallet is using the contract. The Constructor, assigned with the information from the structure,
+collects the information ansigning owner to msg.sender ensures security. Now we return to the function:
+
+function setID(uint /*wallet address*/) public onlyOwner {
+
+        //Logic
+    }
+
+The function is meant to set an Id for only the owner using the owner's wallet address. In the function, the id modifier will be connected to the wallet address and
+connected to a black id modifier:
+
+example: id./*wallet address*/ = _id;
+
+To set the wallet address as the id and will then allow the wallet address to be called by the owner when "id" is called. Before that however, the contract uses
+it's next function:
+
+Function 2. A function to approve viewer
+
+This function:
+
+function approveViewer(address viewer) public {
+
+        isApproved[viewer] = true;
+    }
+
+Needs to run before an id can be checked. It will take the currently mapped owner to be the "viewer" and to register "true" to satisfiy the bool conditions.
+From there we more on the the Next Function:
+
+Function 3. A function to view user id information that only the owner can see
+
+This function:
+
+function getID() public view returns(ID memory){
+
+        // Logic
+
+        return(id);
+    }
+Uses the information stored in memoryas "ID," the information collected by the constructor, and uses logic to check whether or not the person currently using the 
+contract is the owner before returning their id, their wallet address. The logic might look like this:
+
+example: require((isApproved[msg.sender] == true || msg.sender == owner), "You are not approved to view this ID");
+
+Where "require" literally means the conditions in nead to me met before proceeding and " || " represent an "or" in Solidity. In this case, the require statement says
+that the msg.sender needs to be either the owner of the contract or his/her approval must equal true to view the id, the wallet address. Otherwise they are met
+with a refusal message. This now brings us to the next Smart Contract and its functions.
+
+Smart Contract 2:
