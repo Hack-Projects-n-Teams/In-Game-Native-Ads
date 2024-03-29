@@ -62,8 +62,14 @@ contract userID {
 contract walletTransactions {
 
   
+    address public owner;
+    mapping(address => uint256) public balances;
 
-      constructor() {
+    // Event declarations
+    event Deposit(address indexed user, uint256 amount);
+    event Withdrawal(address indexed user, uint256 amount);
+ 
+    constructor() {
           owner = msg.sender;
       }
 
