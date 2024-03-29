@@ -94,3 +94,37 @@ that the msg.sender needs to be either the owner of the contract or his/her appr
 with a refusal message. This now brings us to the next Smart Contract and its functions.
 
 Smart Contract 2:
+Function 1:
+
+function deposit() public payable {
+          // Allows the contract to receive Ether
+      }
+
+This function allows a user to deposit digital funds into their wallet. Funds they can use to mint Ad NFTs later. The logic of the function requires the current 
+funds in the wallet to be greater than zero and an emit function to institute the deposit.
+
+Similiarly, the next function, the withdraw function,:
+
+function withdraw(uint256 amount) public payable onlyOwner {
+          //Allows users to withdraw from wallet
+          
+      }
+
+Will use simmilar logic except that the emit function is now a withdraw instead of a deposit and the contract must now check the balance of the wallet to see if 
+it can withdraw the amount and it needs to update the wallets balance after the withdraw. This balance is viewed by this function:
+
+function getBalance() public view returns (uint256) {
+          return address(this).balance;
+      }
+
+Whose logic returns the wallet's balance. This now leads us to the third Smart Contract and its functions.
+
+Smart Contract 3
+Function 1.
+
+function setBaseURI(string memory baseURI_) external onlyOwner {
+        //Add logic as needed
+        _baseURIextended = baseURI_;
+    }
+
+This function is the first in the NFT minting smart contract
