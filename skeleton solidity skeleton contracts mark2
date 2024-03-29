@@ -91,9 +91,7 @@ contract walletTransactions {
           return address(this).balance;
       }
 
-      function pay() public payable {
-        //Allows the contract to pay for services
-    }
+      
 
 //Third task, Smart Contract for NFT minting, listing, and storing. Logic for this smart contract could be used in multiple contracts if developing and listing 
 //different NFTs
