@@ -57,14 +57,13 @@ contract GameHolders is ERC721URIStorage, Ownable{
     event walletAddressUpdated(uint _gameINFO, string _newWallet);
     event gameNameUpdated(uint256 _gameINFO, string _newName);
 
-    constructor() Ownable(msg.sender) ERC721("Holder NFT", "HNFT") {}
-    
+    constructor() Ownable(msg.sender) ERC721("NativeCreatives Holder NFT", "NCH") {}
 
     //Holder Functions
 
     function viewUsers(uint256 _holdersID) public view returns (HolderDatainfo memory) {
         //View Holders
-        return _holders[_holdersID];
+        return _holders[_holdersID].;
     }
     function addUsers(uint256 _holdersID, uint256 value) public {
         _holders[_holdersID].users += value;
