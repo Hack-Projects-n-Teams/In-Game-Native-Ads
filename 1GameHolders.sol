@@ -44,6 +44,10 @@ contract GameHolders is ERC721, ERC721URIStorage, Ownable {
     mapping(uint256 => HolderDatainfo) public _holders;
     mapping(uint256 => uint256) public _holderRevenues;
     
+    // Game events
+    event GameAdded(uint256 indexed gameId, address indexed owner, address indexed gameServerAddress);
+    
+    
     constructor() Ownable(msg.sender) ERC721("NativeCreative Holder Token", "NCHT") {}
     
     function safeHolderMint(address to, string memory uri) public {
@@ -59,9 +63,10 @@ contract GameHolders is ERC721, ERC721URIStorage, Ownable {
         _games[gameId].owner = msg.sender;
         _games[gameId].gameServerAddress = _gameServerAddress;
 
-        // TODO write to table land
-    }
+        // TODO write to table land 
 
+        emit GameAdded(gameId, msg.sender, _gameServerAddress);
+    }
 
     // The following functions are overrides required by Solidity.
 
