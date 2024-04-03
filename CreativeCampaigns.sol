@@ -19,16 +19,34 @@ contract CreativeCampaigns is ERC721URIStorage, Ownable{
         uint256 totalViews;
         uint256 totalLeads;
     }
+    
+    // create a struct for the campaign data
+    struct CreativeDatainfo {
+        uint256 campaignID;
+        uint256 gameID;
+        uint256 holderID;
+        uint256 gameClientHolderID;
+        uint256 totalViews;
+        uint256 totalLeads;
+        bool paused;
+        string creativeURL;
+    }
 
     // Campaign mappings
     mapping(uint256 => CampaignDatainfo) public _campaigns;
     mapping(uint256 => uint256) public _campaignBalances;
     mapping(uint256 => uint256) public _campaignExpenses;
     
-    
+    // Creatives mappings
+    mapping(uint256 => CreativeDatainfo) public _creatives;
+    mapping(uint256 => uint256) public _creativesExpenses;
+
+    // TODO Campaigns functions
+    // TODO Creatives functions
+
     event ViewOccurred(uint256 _campaigns);
     constructor(address initialOwner) Ownable(initialOwner) ERC721("Campaign NFT", "CNFT") ERC721URIStorage() {
-        // Campaign ID - start numeration from 1.
+        // TODO Campaign ID - start numeration from 1.
         _campaigns[1].totalViews = 1;
         
     }
