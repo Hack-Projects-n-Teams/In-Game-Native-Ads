@@ -11,7 +11,7 @@ contract HolderData is ERC721URIStorage, Ownable{
     struct HolderDatainfo {
         string holderName;        
         string holderPrompt;
-        uint256 gameID;
+        address gameID;
         uint256 gameClientHolderID;
         uint256 campaigns;
         uint256 activeCampaigns;
@@ -27,7 +27,7 @@ contract HolderData is ERC721URIStorage, Ownable{
     struct GameDatainfo {
         string gameName;
         string gameOwner;
-        string wallet;
+        address payable wallet;
         uint256 gameCount;
         string gamePrompt;
         uint256 gameHolders;
@@ -53,7 +53,7 @@ contract HolderData is ERC721URIStorage, Ownable{
     //Game Events
     event gamePromptUpdated(uint256 _gameINFO, string _newPrompt);
     event gameOwnerUpdated (uint256 _gameINFO, string _newOwner);
-    event walletAddressUpdated(uint _gameINFO, string _newWallet);
+    event walletAddressUpdated(uint _gameINFO, address _newWallet);
     event gameNameUpdated(uint256 _gameINFO, string _newName);
 
     constructor() Ownable(msg.sender) ERC721("Holder NFT", "HNFT") {}
@@ -117,10 +117,10 @@ contract HolderData is ERC721URIStorage, Ownable{
         emit gameOwnerUpdated(_gameINFO, _newOwner);
     }
 
-    function setWalletAddress(uint256 _gameINFO, string memory _newWallet) public {
+    function setWalletAddress(uint256 _gameINFO, address _newWallet) public {
         require(ownerOf(_gameINFO) == msg.sender, "Only the game owner can update the wallet");
-        _games[_gameINFO].wallet = _newWallet;
-        emit walletAddressUpdated(_holderID, _newWallet);
+        _games[_gameINFO].wallet = payable(_newWallet);
+        emit walletAddressUpdated(_gameINFO, _newWallet);
     }
 
     function setGameName(uint256 _gameINFO, string memory _newName) public {
@@ -128,6 +128,28 @@ contract HolderData is ERC721URIStorage, Ownable{
         _games[_gameINFO].gameName = _newName;
         emit gameNameUpdated(_gameINFO, _newName);
     }
+
+    function pauseGame(uint256 _gameINFO) public {
+        _games[_gameINFO].paused = true;  
+    }
+
+    function unpauseGame(uint256 _gameINFO) public {
+        _games[_gameINFO].paused = false;
+    }
+
+    function gamePaused(uint256 _gameINFO) public view returns (bool){
+        return _games[_gameINFO].paused == true;
+    }
+
+    function viewBallance(uint256 _gameINFO) public view returns(uint256) {
+        return _games[_gameINFO].wallet.balance;
+    }
+
+    function withdrawRevenue(uint256 _gameINFO) public payable onlyOwner {
+        uint256 balance = _games[_gameINFO].wallet.balance;
+        _games[_gameINFO].wallet.transfer(balance);
+    }
+
     // Function to mint an NFT using ID
  
     function mintHolderNFT(uint256 _holdersID) public {
