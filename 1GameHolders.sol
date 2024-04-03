@@ -6,8 +6,9 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract MyToken is ERC721, ERC721URIStorage, Ownable {
-    uint256 private _nextTokenId;
+contract GameHolders is ERC721, ERC721URIStorage, Ownable {
+    uint256 private _nextGameId;
+    uint256 private _nextHolderTokenId;
     // create a struct for the Holder data
     struct HolderDatainfo {
         uint256 gameID;
@@ -34,8 +35,6 @@ contract MyToken is ERC721, ERC721URIStorage, Ownable {
         bool paused;
     }
 
-    uint256 private _nextTokenId;
-
     // Game mappings
     mapping(uint256 => GameDatainfo) public _games;
     mapping(uint256 => uint256) public _gameRevenues;
@@ -47,11 +46,22 @@ contract MyToken is ERC721, ERC721URIStorage, Ownable {
     
     constructor() Ownable(msg.sender) ERC721("NativeCreative Holder Token", "NCHT") {}
     
-    function safeMint(address to, string memory uri) public onlyOwner {
-        uint256 tokenId = _nextTokenId++;
-        _safeMint(to, tokenId);
-        _setTokenURI(tokenId, uri);
+    function safeHolderMint(address to, string memory uri) public {
+        uint256 holderTokenId = _nextHolderTokenId++;
+        _safeMint(to, holderTokenId);
+        _setTokenURI(holderTokenId, uri);
     }
+
+    //Game Functions
+    function addGame(address _gameServerAddress, string memory _name, string memory _prompt) public {
+        uint256 gameId = _nextGameId++;
+
+        _games[gameId].owner = msg.sender;
+        _games[gameId].gameServerAddress = _gameServerAddress;
+
+        // TODO write to table land
+    }
+
 
     // The following functions are overrides required by Solidity.
 
