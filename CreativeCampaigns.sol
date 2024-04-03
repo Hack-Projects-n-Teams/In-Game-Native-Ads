@@ -5,33 +5,30 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract CampaignData is ERC721URIStorage, Ownable{
+contract CreativeCampaigns is ERC721URIStorage, Ownable{
     
-    //create enums for the campaign
-    //enum Logos { UNPAUSED, PAUSED }
-
     // create a struct for the campaign data
     struct CampaignDatainfo {
         address campaignOwner;
-        string campaignName;
-        string campaignPrompt;
-        uint256 campaignBalance;
-        uint256 campaignID;
-        uint256 leads;
-        string promoCode;
-        string redirectLink;
-        bool paused;
-        uint256 activeGames;
+        string campaignURL;
+        uint256 totalCreatives;
         uint256 activeCreatives;
         uint256 totalGames;
-        uint256 totalCreatives;
-        uint256 totalHolders;
+        uint256 activeGames;
+        bool paused;
         uint256 totalViews;
+        uint256 totalLeads;
     }
 
+    // Campaign mappings
     mapping(uint256 => CampaignDatainfo) public _campaigns;
+    mapping(uint256 => uint256) public _campaignBalances;
+    mapping(uint256 => uint256) public _campaignExpenses;
+    
+    
     event ViewOccurred(uint256 _campaigns);
     constructor(address initialOwner) Ownable(initialOwner) ERC721("Campaign NFT", "CNFT") ERC721URIStorage() {
+        // Campaign ID - start numeration from 1.
         _campaigns[1].totalViews = 1;
         
     }
