@@ -44,7 +44,7 @@ contract GameHolders is ERC721URIStorage, Ownable{
 
     // TODO check below
     //NFT Events
-    event NFTMinted(address indexed owner, uint256 indexed tokenId, string tokenURI);
+    event HolderNFTMinted(address indexed owner, uint256 indexed tokenId, string tokenURI);
 
     //Holder Events
     event HolderPromptUpdated(uint256 _holderID, string newPrompt);
@@ -53,13 +53,12 @@ contract GameHolders is ERC721URIStorage, Ownable{
     
     //Game Events
     event gamePromptUpdated(uint256 _gameINFO, string _newPrompt);
-    event gameOwnerUpdated (uint256 _gameINFO, string _newOwner);
+    event gameOwnerUpdated (uint256 _gameINFO, string _newOwner)
     event walletAddressUpdated(uint _gameINFO, string _newWallet);
     event gameNameUpdated(uint256 _gameINFO, string _newName);
 
-    constructor() Ownable(msg.sender) ERC721("Holder NFT", "HNFT") {}
+    constructor() Ownable(msg.sender) ERC721("CreativesHolder", "NCH") {}
     
-
     //Holder Functions
 
     function viewUsers(uint256 _holdersID) public view returns (HolderDatainfo memory) {
@@ -140,6 +139,6 @@ contract GameHolders is ERC721URIStorage, Ownable{
         _safeMint(msg.sender, tokenId); // Minting the NFT
 
         // Emit event
-        emit NFTMinted(msg.sender, tokenId, ""); // Assuming the tokenURI is empty for now
+        emit HolderNFTMinted(msg.sender, tokenId, ""); // Assuming the tokenURI is empty for now
     }
 }
