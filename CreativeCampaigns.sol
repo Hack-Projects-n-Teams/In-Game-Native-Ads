@@ -43,6 +43,7 @@ contract CreativeCampaigns is ERC721URIStorage, Ownable{
 
     // TODO Campaigns functions
     // TODO Creatives functions
+    // TODO check below
 
     event ViewOccurred(uint256 _campaigns);
     constructor(address initialOwner) Ownable(initialOwner) ERC721("Campaign NFT", "CNFT") ERC721URIStorage() {

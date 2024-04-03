@@ -5,43 +5,44 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract HolderData is ERC721URIStorage, Ownable{  
+contract GameHolders is ERC721URIStorage, Ownable{  
 
-    // create a struct for the campaign data
+    // create a struct for the Holder data
     struct HolderDatainfo {
-        string holderName;        
-        string holderPrompt;
         uint256 gameID;
         uint256 gameClientHolderID;
-        uint256 campaigns;
+        uint256 totalCampaigns;
         uint256 activeCampaigns;
         uint256 users;
         uint256 views;
         uint256 leads;
         bool paused;
-
     }
 
-    mapping(uint256 => HolderDatainfo) public _holders;
-
+    // create a struct for the Game data
     struct GameDatainfo {
-        string gameName;
-        string gameOwner;
-        string wallet;
-        uint256 gameCount;
-        string gamePrompt;
-        uint256 gameHolders;
-        uint256 activeGameHolders;
-        uint256 campaigns;
+        address owner;
+        address gameServerAddress;
+        uint256 totalHolders;
+        uint256 activeHolders;
+        uint256 totalCampaigns;
         uint256 activeCampaigns;
         uint256 users;
         uint256 views;
         uint256 leads;
         bool paused;
-
     }
 
+    // Game mappings
     mapping(uint256 => GameDatainfo) public _games;
+    mapping(uint256 => uint256) public _gameRevenues;
+    mapping(uint256 => uint256) public _gameBalances;
+
+    // Holder mappings
+    mapping(uint256 => HolderDatainfo) public _holders;
+    mapping(uint256 => uint256) public _holderRevenues;
+
+    // TODO check below
     //NFT Events
     event NFTMinted(address indexed owner, uint256 indexed tokenId, string tokenURI);
 
